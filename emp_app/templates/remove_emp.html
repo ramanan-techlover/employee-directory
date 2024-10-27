@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Remove Employee</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #343a40;
+        }
+        h1 {
+            text-align: center;
+            margin: 2rem 0;
+            text-decoration: underline;
+            text-underline-offset: 0.8rem;
+            text-decoration-thickness: 0.15rem;
+        }
+        .form-cont {
+            width: 20rem;
+            font-weight: 600;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .form-cont input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            border: 1px solid black;
+            border-radius: 4px;
+        }
+        .form-cont button {
+            padding: 0.75rem 1.5rem;
+            margin-top: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-cont button:hover {
+            background-color: #0056b3;
+        }
+        .alert {
+            padding: 1rem;
+            margin: 1rem auto;
+            border-radius: 4px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+            font-size: 1rem;
+            text-align: center;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .alert-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        .btn-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #000;
+            cursor: pointer;
+        }
+        #emp-table {
+            margin: 2rem auto;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            margin: 2rem auto;
+            border-collapse: collapse;
+            max-width: 800px;
+        }
+        table, th, td {
+            border: 1px solid #343a40;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        td {
+            background-color: #f8f9fa;
+        }
+        .btn-danger {
+            padding: 0.75rem 1.5rem;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .my-2 {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        .my-4 {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show my-2" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" aria-label="Close">&times;</button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <h1 class="RAE">Remove an Employee</h1>
+
+    <div class="text-center my-4">
+        <a href="/all-emp">View all Employees</a>
+    </div>
+
+    <div class="form-cont">
+        <form action="" method="post" id="getempform">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="emp-id" class="form-label">Enter Employee ID:</label>
+                <input type="number" name="emp-id" id="emp-id" required>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div id="emp-table"></div>
+
+    <script>
+        document.querySelectorAll('.btn-close').forEach(function(button) {
+            button.addEventListener('click', function() {
+                this.parentElement.style.display = 'none';
+            });
+        });
+
+        document.getElementById('getempform').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var formData = new FormData(this);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/remove-emp', true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    var empTable = document.getElementById('emp-table');
+                    empTable.innerHTML = '';
+
+                    if (data['status'] === 'success') {
+                        var empData = `
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Emp ID</th>
+                                        <th>Firstname</th>
+                                        <th>Lastname</th>
+                                        <th>Department</th>
+                                        <th>Role</th>
+                                        <th>Salary</th>
+                                        <th>Bonus</th>
+                                        <th>Phone NO</th>
+                                        <th>Location</th>
+                                        <th>Hire Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>${data.empID}</td>
+                                        <td>${data.firstname}</td>
+                                        <td>${data.lastname}</td>
+                                        <td>${data.dept}</td>
+                                        <td>${data.role}</td>
+                                        <td>${data.salary}</td>
+                                        <td>${data.bonus}</td>
+                                        <td>${data.phone}</td>
+                                        <td>${data.location}</td>
+                                        <td>${data.hire_date}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-center mx-auto">
+                                <form action="/remove-emp/${data.empID}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-danger my-2">Remove Employee</button>
+                                </form>
+                            </div>`;
+
+                        empTable.innerHTML = empData;
+                    } else if (data['status'] === 'not found') {
+                        empTable.innerHTML = `<h2 class="text-center my-2">Employee Not Found!</h2>`;
+                    }
+                }
+            };
+
+            xhr.send(formData);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>All Employees</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 1.5rem 0;
+            text-decoration: underline;
+            text-underline-offset: 0.5rem;
+            text-decoration-thickness: 0.15rem;
+        }
+
+        table {
+            width: 90%;
+            margin: 2rem auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #e9ecef;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="AED">Employees Details</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Emp ID</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Department</th>
+                <th>Role</th>
+                <th>Salary</th>
+                <th>Bonus</th>
+                <th>Phone NO</th>
+                <th>Location</th>
+                <th>Hire Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emp in emps %}
+            <tr>
+                <td>{{emp.emp_id}}</td>
+                <td>{{emp.first_name}}</td>
+                <td>{{emp.last_name}}</td>
+                <td>{{emp.dept.name}}</td>
+                <td>{{emp.role.name}}</td>
+                <td>{{emp.salary}}</td>
+                <td>{{emp.bonus}}</td>
+                <td>{{emp.phone_num}}</td>
+                <td>{{emp.dept.location}}</td>
+                <td>{{emp.hire_date}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

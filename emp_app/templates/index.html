@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Employee Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+    
+    h1 {
+      text-align: center;
+      margin: 2rem 0;
+      text-decoration: underline;
+      text-underline-offset: 0.8rem;
+      text-decoration-thickness: 0.15rem;
+      color: #343a40;
+    }
+    
+    ul {
+      list-style: none;
+      padding: 0;
+      text-align: center;
+    }
+    
+    ul li {
+      margin: 1rem 0;
+    }
+    
+    a.btn {
+      display: inline-block;
+      width: 15rem;
+      padding: 0.75rem;
+      border-radius: 0.25rem;
+      text-decoration: none;
+      color: #fff;
+      background-color: #007bff;
+      text-align: center;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    a.btn:hover {
+      background-color: #0056b3;
+    }
+    
+    .alert {
+      padding: 1rem;
+      margin: 1rem auto;
+      border-radius: 0.25rem;
+      width: 80%;
+      max-width: 600px;
+      position: relative;
+      font-size: 1rem;
+    }
+    
+    .alert-dismissible .btn-close {
+      position: absolute;
+      top: 0.5rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #000;
+      cursor: pointer;
+    }
+    
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    
+    .alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    
+    .alert-warning {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+    
+    .alert-info {
+      background-color: #d1ecf1;
+      color: #0c5460;
+    }
+  </style>
+</head>
+
+<body>
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-{{message.tags}} alert-dismissible fade show my-2" role="alert">
+    <strong>{{message}}</strong>
+    <button type="button" class="btn-close" aria-label="Close">&times;</button>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  <h1 class="OEMS">Office Employee Management System</h1>
+
+  <ul>
+    <li><a href="/all-emp" class="btn">All Employees</a></li>
+    <li><a href="/add-emp" class="btn">Add Employee</a></li>
+    <li><a href="/remove-emp" class="btn">Remove Employee</a></li>
+    <li><a href="/filter-emp" class="btn">Filter Employees</a></li>
+  </ul>
+
+  <script>
+    document.querySelectorAll('.btn-close').forEach(function(button) {
+      button.addEventListener('click', function() {
+        this.parentElement.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>
